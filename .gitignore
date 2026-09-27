@@ -31,3 +31,6 @@ urls/urls.txt
 .idea/
 .DS_Store
 Thumbs.db
+
+# Local agent/tooling config
+.kilo/
