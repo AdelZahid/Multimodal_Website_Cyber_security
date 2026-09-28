@@ -7,11 +7,12 @@ __pycache__/
 *.egg-info/
 
 # Scraped dataset output
-# Regenerable by running the scraper. Currently excluded because the
-# captured pages contain third-party API credentials - see the
-# "Known issue: leaked credentials" section of README.md.
-# Redact the secrets before committing this.
-WebsiteDataset/
+# Regenerable by running the scraper. The captured pages contain
+# third-party API credentials - see the "Known issue: leaked
+# credentials" section of README.md. Only the index CSV is committed;
+# redact the captures before adding them.
+WebsiteDataset/*
+!WebsiteDataset/dataset.csv
 *.zip
 *.rar
 
