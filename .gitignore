@@ -6,10 +6,11 @@ __pycache__/
 *.pyo
 *.egg-info/
 
-# Generated dataset output
-# This is scraped page data (HTML / text / third-party JSON). It is
-# regenerable by running the scraper, and is excluded from version
-# control because of its size and the sensitive nature of the pages.
+# Scraped dataset output
+# Regenerable by running the scraper. Currently excluded because the
+# captured pages contain third-party API credentials - see the
+# "Known issue: leaked credentials" section of README.md.
+# Redact the secrets before committing this.
 WebsiteDataset/
 *.zip
 *.rar
@@ -19,12 +20,6 @@ logs/
 checkpoint.json
 failed_urls.csv
 urls_selected.csv
-
-# URL seed lists
-# These contain live third-party URLs. Keep them local and add your own
-# defanged / research-appropriate list if you need to share an example.
-urls/malicious_urls.txt
-urls/urls.txt
 
 # Editor / OS noise
 .vscode/

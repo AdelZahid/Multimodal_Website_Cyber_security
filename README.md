@@ -331,6 +331,50 @@ implementations of both. They are safe to delete.
 
 ---
 
+## Known issue: leaked credentials in captured pages
+
+**Scraped pages can contain live third-party secrets, and this dataset does.**
+
+A full scan of the 762 captured pages found credentials belonging to other
+people's systems:
+
+| Finding | Occurrences | Files |
+|---|---|---|
+| Google/GCP API key | 69 | 33 |
+| JWT-looking token | 90 | 18 |
+| Twilio account SID | 3 | 1 (`000660`, `000710`) |
+| Groq API key | 2 | 1 (`000660`) |
+| AWS access key ID | 1 | 1 (`000168`) |
+| OpenAI key | 1 | 1 (`000563`) |
+| Firebase project URL | 2 | 2 |
+
+The clearest case is `html/000660.html`, a captured storefront whose
+client-side configuration JSON leaks a **working API key belonging to that
+store's operator** — a credential a third party never intended to publish.
+
+Severity is not uniform. An `AKIA…` key ID without its paired secret, a
+Firebase URL, or a domain-restricted client-side Google key are public
+identifiers by design and are not directly exploitable. The Groq key and any
+live JWT session tokens are a different matter.
+
+### Why `WebsiteDataset/` is not committed
+
+GitHub push protection blocks the push outright (`GH013: Push cannot contain
+secrets`), and the offered "allow this secret" links would publish live
+credentials to a public repository. They should not be used.
+
+### Before publishing the dataset
+
+1. Redact the secret values in place, keeping page structure and JSON shape —
+   the features the models consume do not depend on the values.
+2. Re-scan to confirm nothing remains.
+3. Only then commit the folder.
+
+Note that a fresh scrape re-captures these. Treat redaction as a recurring step
+in the collection pipeline, not a one-off.
+
+---
+
 ## Troubleshooting
 
 **`ModuleNotFoundError: No module named 'modules'`**
